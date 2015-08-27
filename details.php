@@ -74,11 +74,15 @@
 				$query = mysql_query("SELECT * FROM `item_type` WHERE id=$Part");
 				$row = mysql_fetch_assoc($query);
 				
+                if(isset($_SESSION['type'])){
+                    if($_SESSION['type']=='admin'){
+                        print '<a href="admin/add.php" > Add </a>';
+                        print '<a href="admin/delete.php?item='.$row['id'].'" > Delete </a>';
+                        print '<a href="admin/edit.php?item='.$row['id'].'" > Edit </a>';
+                    }
+                }
             ?>
-			<a href="admin/add.php" > Add </a>
-			<a href="admin/delete.php?item=<?php print $row['id']; ?>" > Delete </a>
-			<a href="admin/edit.php?item=<?php print $row['id']; ?>" > Edit </a>
-			<div class="row">
+            <div class="row">
 				<div class="col-md-9">
 					<div class="thumbnail">
 						<img class="img-responsive" style="width:300px; height:300px;" src="<?php print substr($row['image'], 3); ?>" alt="">
@@ -92,8 +96,12 @@
 					</div>
 				</div>
                 <?php
-                    if($_SESSION['type']=='customer'){
-                        print '<button type="button" class="btn btn-default"><a href="add_to_cart.php?item='.$row['id'].'">Add to Cart</a></button>';
+                    if(isset($_SESSION['type'])){
+                        if($_SESSION['type']=='customer'){
+                            if(intval($row['units_in_stock'])>1){
+                                print '<button type="button" class="btn btn-default"><a href="add_to_cart.php?item='.$row['id'].'">Add to Cart</a></button>';                 
+                            }
+                        }
                     }
                 ?>
 			</div>
