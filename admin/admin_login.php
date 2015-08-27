@@ -25,7 +25,7 @@
          // {
              $_SESSION['user'] = $username; //set the username in a session. This serves as a global variable
 			 $_SESSION['type'] = $table_type;
-             header("location: add.php"); // redirects the user to the authenticated home page
+             header("location: home.php"); // redirects the user to the authenticated home page
         //  }
        }
        else

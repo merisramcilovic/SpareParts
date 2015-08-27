@@ -1,5 +1,13 @@
 <?php
 	session_start();
+
+    if(!isset($_SESSION['user'])){
+        header('location: login.php');
+    }else{
+        if($_SESSION['type']!='admin'){
+            header('location: login.php');
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,8 +19,8 @@
 		<meta name="author" content="">
 		<title>Spare Parts</title>
 		<!-- Bootstrap Core CSS -->
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="css/shop-item.css" rel="stylesheet">
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/shop-item.css" rel="stylesheet">
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -32,19 +40,19 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">SpareParts</a>
+					<a class="navbar-brand" href="#">Admin Panel</a>
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li>
-							<a href="#">About</a>
+                        <li>
+							<a href="../index.php">Home</a>
 						</li>
 						<li>
-							<a href="#">Services</a>
+							<a href="add.php">Add</a>
 						</li>
 						<li>
-							<a href="#">Contact</a>
+							<a href="orders.php">Orders</a>
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
@@ -64,39 +72,9 @@
 		</nav>
 		<!-- Page Content -->
 		<div class="container">
-			<?php
-				if(!isset($_GET['part'])){
-				    header('location: index.php');
-				}
-				$Part = $_GET['part'];
-				mysql_connect("localhost", "root", "") or die (mysql_error()); 
-				mysql_select_db("spare_parts") or die ("Cannot connect to database"); 
-				$query = mysql_query("SELECT * FROM `item_type` WHERE id=$Part");
-				$row = mysql_fetch_assoc($query);
-				
-            ?>
-			<a href="admin/add.php" > Add </a>
-			<a href="admin/delete.php?item=<?php print $row['id']; ?>" > Delete </a>
-			<a href="admin/edit.php?item=<?php print $row['id']; ?>" > Edit </a>
-			<div class="row">
-				<div class="col-md-9">
-					<div class="thumbnail">
-						<img class="img-responsive" style="width:300px; height:300px;" src="<?php print substr($row['image'], 3); ?>" alt="">
-						<div class="caption-full">
-							<h4 class="pull-right">$<?php echo " Price:  " ;  print $row['price']; ?></h4>
-							<h4><a href="#"><?php print $row['name']; ?></a>
-							</h4>
-							<?php print $row['desc']; ?>
-						</div>
-						<?php echo "   Pieces available:  " ; print $row['units_in_stock']; ?>
-					</div>
-				</div>
-                <?php
-                    if($_SESSION['type']=='customer'){
-                        print '<button type="button" class="btn btn-default"><a href="add_to_cart.php?item='.$row['id'].'">Add to Cart</a></button>';
-                    }
-                ?>
-			</div>
+			
+            Admin Panel Content
+            
 		</div>
 		<!-- /.container -->
 	</body>

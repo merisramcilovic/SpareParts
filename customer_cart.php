@@ -96,6 +96,8 @@
                         print '<th>Total:</th>';
                         print '<th>'. $sum .'</th>';
                         print '</tr>';
+                        
+                        $_SESSION['cart_total'] = $sum;
                     ?>
                 </tbody>
             </table>
